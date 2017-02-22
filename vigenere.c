@@ -2,9 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 
-void key_overflow(int *key_counter, int key_length);
 int changer(int character);
-void cipher(char *text, char *key);
+void encipher(char *text, char *key);
 void decipher(char *text, char *key);
 
 int main(int argc, char *argv[])
@@ -15,20 +14,13 @@ int main(int argc, char *argv[])
     printf("vigenere: %s\n", vigenere);
     printf("cipher: %s\n", pcipher);
 
-    cipher(vigenere, pcipher);
-    printf("ciphered: %s\n", vigenere);
+    encipher(vigenere, pcipher);
+    printf("enciphered: %s\n", vigenere);
 
     decipher(vigenere, pcipher);
     printf("deciphered: %s\n", vigenere);
 }
 
-void key_overflow(int *key_counter, int key_length)
-{
-    if (*key_counter == key_length)
-    {
-	*key_counter = 0;
-    }
-}
 int changer(int character)
 {
     int result;
@@ -46,14 +38,14 @@ int changer(int character)
     }
     return result;
 }
-void cipher(char *text, char *key)
+void encipher(char *text, char *key)
 {
     int vlen = strlen(text);
     int clen = strlen(key);
 
     for (int i = 0, j = 0, to_add = 0; i < vlen; i++, j++)
     {
-	key_overflow(&j, clen);
+	j = j % clen;
         to_add = changer(key[j]);
 
 	if (isupper(text[i]))
@@ -81,7 +73,7 @@ void decipher(char *text, char *key)
 
     for (int i = 0, j = 0, to_add = 0; i < vlen; i++, j++)
     {
-	key_overflow(&j, clen);
+	j = j % clen;
         to_add = changer(key[j]);
 
 	if (isupper(text[i]))
