@@ -2,7 +2,10 @@
 #include <string.h>
 #include <ctype.h>
 
-int main(int argc, char* argv[])
+void key_overflow(int *key_counter, int key_length);
+int changer(int character);
+
+int main(int argc, char *argv[])
 {
     char* vigenere = argv[1];
     char* cipher = argv[2];
@@ -13,23 +16,11 @@ int main(int argc, char* argv[])
     printf("vigenere: %s\n", vigenere);
     printf("cipher: %s\n", cipher);
 
-    for (int i = 0, j = 0; i < vlen; i++, j++)
+    for (int i = 0, j = 0, to_add = 0; i < vlen; i++, j++)
     {
-	if (j == clen)
-	{
-	    j = 0;
-	}
+	key_overflow(&j, clen);
+        to_add = changer(cipher[j]);
 
-	int to_add = 0;
-	if (isupper(cipher[j]))
-	{
-	    to_add = (cipher[j] - 'A');
-	}
-	else if (islower(cipher[j]))
-	{
-	    to_add = (cipher[j] - 'a');
-	}
-	
 	if (isupper(vigenere[i]))
 	{
 	    vigenere[i] += to_add;
@@ -50,4 +41,29 @@ int main(int argc, char* argv[])
 
     printf("ciphered: %s\n", vigenere);
 
+}
+
+void key_overflow(int *key_counter, int key_length)
+{
+    if (*key_counter == key_length)
+    {
+	*key_counter = 0;
+    }
+}
+int changer(int character)
+{
+    int result;
+    if (isupper(character))
+    {
+	result = character - 'A';
+    }
+    else if (islower(character))
+    {
+	result = character - 'a';
+    }
+    else
+    {
+	result = 0;
+    }
+    return result;
 }
