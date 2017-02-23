@@ -6,12 +6,12 @@
 
 int main(int argc, char *argv[])
 {
-    FILE *fp = fopen(argv[1], "r");
-    FILE *fdp = fopen("output.txt", "w");
+    FILE *src_file = fopen(argv[1], "r");
+    FILE *dst_file = fopen("output.txt", "w");
 
-    if (fp == NULL)
+    if (src_file == NULL)
     {
-	fclose(fdp);
+	fclose(dst_file);
     }
     else
     {
@@ -19,17 +19,17 @@ int main(int argc, char *argv[])
 	char *cipher = argv[2];
 	int clen = strlen(cipher);
 	
-	while ((c = getc(fp)) != EOF)
+	while ((c = getc(src_file)) != EOF)
 	{
 	    if (isalpha(c))
 	    {
 		c = v_encipher(c, cipher[i++]);
 	    }
-	    putc(c, fdp);
+	    putc(c, dst_file);
 
 	    i %= clen;
 	}
-	fclose(fp);
-	fclose(fdp);
+	fclose(src_file);
+	fclose(dst_file);
     }
 }
