@@ -3,6 +3,7 @@
 #include <ctype.h>
 
 #include "vigenere.h"
+#include "atbash.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
 	    if (isalpha(c))
 	    {
 		c = v_encipher(c, cipher[i++]);
+		c = a_encipher(c);
 	    }
 	    putc(c, dst_file);
 

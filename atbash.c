@@ -6,11 +6,11 @@ char a_encipher(char text)
 {
     if (isupper(text))
     {
-	text += 'Z' - text;
+	text = 'A' + 'Z' - text;
     }
     else if (islower(text))
     {
-	text += 'z' - text;	
+	text = 'a' + 'z' - text;	
     }
 	    
     return text;
