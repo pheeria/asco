@@ -2,9 +2,9 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "vigenere.h"
+
 int changer(int character);
-void encipher(char *text, char *key);
-void decipher(char *text, char *key);
 
 int main(int argc, char *argv[])
 {
@@ -14,10 +14,10 @@ int main(int argc, char *argv[])
     printf("vigenere: %s\n", vigenere);
     printf("cipher: %s\n", pcipher);
 
-    encipher(vigenere, pcipher);
+    v_encipher(vigenere, pcipher);
     printf("enciphered: %s\n", vigenere);
 
-    decipher(vigenere, pcipher);
+    v_decipher(vigenere, pcipher);
     printf("deciphered: %s\n", vigenere);
 }
 
@@ -38,7 +38,7 @@ int changer(int character)
     }
     return result;
 }
-void encipher(char *text, char *key)
+void v_encipher(char *text, char *key)
 {
     int vlen = strlen(text);
     int clen = strlen(key);
@@ -66,7 +66,7 @@ void encipher(char *text, char *key)
 	}
     }
 }
-void decipher(char *text, char *key)
+void v_decipher(char *text, char *key)
 {
     int vlen = strlen(text);
     int clen = strlen(key);
