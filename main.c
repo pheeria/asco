@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
-#include "vigenere.h"
-#include "atbash.h"
+#include "scrambler.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,13 +20,8 @@ int main(int argc, char *argv[])
 	
 	while ((c = getc(src_file)) != EOF)
 	{
-	    if (isalpha(c))
-	    {
-		c = v_encipher(c, cipher[i++]);
-		c = a_encipher(c);
-	    }
+	    c = scramble(c, cipher[i++]);
 	    putc(c, dst_file);
-
 	    i %= clen;
 	}
 	fclose(src_file);
