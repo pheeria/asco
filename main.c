@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
     FILE *src_file = fopen(argv[1], "r");
-    FILE *dst_file = fopen("output.txt", "w");
+    FILE *dst_file = fopen("q.asco", "w");
 
     if (src_file == NULL)
     {
