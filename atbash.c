@@ -17,14 +17,5 @@ char a_encipher(char text)
 }
 char a_decipher(char text)
 {
-    if (isupper(text))
-    {
-	
-    }
-    else if (islower(text))
-    {
-	
-    }
-    
-    return text;
+    return a_encipher(text);
 }
