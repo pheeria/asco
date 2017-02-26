@@ -22,13 +22,12 @@ void parse(int argc, char *argv[])
 	{"vigenere", required_argument, 0, 'v'}
     };
 
-    enum ciphers codes = 0;
     char *filename = argv[1];
-    int option, option_index;
-
     char *output = "q.asco";
-    char *vkey[1];
-    
+
+    enum ciphers codes = 0;
+    char *keywords[1];
+    int option, option_index;
     while ((option = getopt_long(argc, argv, "ao:v:", long_options, &option_index)) != -1)
     {
 	switch(option)
@@ -38,7 +37,7 @@ void parse(int argc, char *argv[])
 		break;
 	    case 'v':
 		codes |= vigenere;
-		vkey[0] = optarg;
+		keywords[0] = optarg;
 		break;
 	    case 'o':
 		output = optarg;
@@ -48,16 +47,20 @@ void parse(int argc, char *argv[])
     printf("b: %d\n", codes);
 
     if (codes & vigenere)
-	printf("vigenere!! Key: %s\n", vkey[0]);
+	printf("vigenere!! Key: %s\n", keywords[0]);
     if (codes & atbash)
 	printf("atbash!!\n");
     
-    if (decipher_flag)
-	printf("Deciphering!\n");
-    else
-	printf("Enciphering!\n");
-
     printf("output: %s\n", output);
-
-    scramble(filename, output, codes, vkey);
+    
+    if (decipher_flag)
+    {
+	printf("Deciphering!\n");
+	unscramble(filename, output, codes, keywords);
+    }
+    else
+    {
+	printf("Enciphering!\n");
+	scramble(filename, output, codes, keywords);
+    }
 }
