@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 #include <getopt.h>
 
 #include "scrambler.h"
@@ -9,29 +8,6 @@ void parse(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
 {
-    /* FILE *src_file = fopen(argv[1], "r"); */
-    /* FILE *dst_file = fopen("q.asco", "w"); */
-
-    /* if (src_file == NULL) */
-    /* { */
-    /* 	fclose(dst_file); */
-    /* } */
-    /* else */
-    /* { */
-    /* 	int c = 0, i = 0; */
-    /* 	char *cipher = argv[2]; */
-    /* 	int clen = strlen(cipher); */
-	
-    /* 	while ((c = getc(src_file)) != EOF) */
-    /* 	{ */
-    /* 	    c = scramble(c, cipher[i++]); */
-    /* 	    putc(c, dst_file); */
-    /* 	    i %= clen; */
-    /* 	} */
-    /* 	fclose(src_file); */
-    /* 	fclose(dst_file); */
-    /* } */
-
     parse(argc, argv);
 }
 
@@ -47,30 +23,32 @@ void parse(int argc, char *argv[])
     };
 
     enum ciphers codes = 0;
-    printf("filename: %s\n", argv[1]);
+    char *filename = argv[1];
     int option, option_index;
 
-    char *output = "q.asco", *vkey;
+    char *output = "q.asco";
+    char *vkey[1];
+    
     while ((option = getopt_long(argc, argv, "ao:v:", long_options, &option_index)) != -1)
     {
 	switch(option)
 	{
-	case 'a':
-	    codes |= atbash;
-	    break;
-	case 'v':
-	    codes |= vigenere;
-	    vkey = optarg;
-	    break;
-	case 'o':
-	    output = optarg;
-	    break;
+	    case 'a':
+		codes |= atbash;
+		break;
+	    case 'v':
+		codes |= vigenere;
+		vkey[0] = optarg;
+		break;
+	    case 'o':
+		output = optarg;
+		break;
 	}
     }
     printf("b: %d\n", codes);
 
     if (codes & vigenere)
-	printf("vigenere!! Key: %s\n", vkey);
+	printf("vigenere!! Key: %s\n", vkey[0]);
     if (codes & atbash)
 	printf("atbash!!\n");
     
@@ -80,4 +58,6 @@ void parse(int argc, char *argv[])
 	printf("Enciphering!\n");
 
     printf("output: %s\n", output);
+
+    scramble(filename, output, codes, vkey);
 }
