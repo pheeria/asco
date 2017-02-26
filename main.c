@@ -2,6 +2,7 @@
 #include <getopt.h>
 
 #include "scrambler.h"
+#include "help.h"
 
 static int decipher_flag;
 void parse(int argc, char *argv[]);
@@ -17,6 +18,7 @@ void parse(int argc, char *argv[])
     {
 	{"encipher", no_argument, &decipher_flag, 0},
 	{"decipher", no_argument, &decipher_flag, 1},
+	{"help", no_argument, 0, 'h'},
 	{"output", required_argument, 0, 'o'},
 	{"atbash", no_argument, 0, 'a'},
 	{"vigenere", required_argument, 0, 'v'}
@@ -28,7 +30,7 @@ void parse(int argc, char *argv[])
     enum ciphers codes = 0;
     char *keywords[1];
     int option, option_index;
-    while ((option = getopt_long(argc, argv, "ao:v:", long_options, &option_index)) != -1)
+    while ((option = getopt_long(argc, argv, "aho:v:", long_options, &option_index)) != -1)
     {
 	switch(option)
 	{
@@ -42,9 +44,11 @@ void parse(int argc, char *argv[])
 	    case 'o':
 		output = optarg;
 		break;
+            case 'h':
+		help();
+		break;	    
 	}
     }
-    printf("b: %d\n", codes);
 
     if (codes & vigenere)
 	printf("vigenere!! Key: %s\n", keywords[0]);
